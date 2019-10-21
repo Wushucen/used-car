@@ -7,7 +7,7 @@ import App from './App.js';
 const app = Dva();
 
 // 模型列表
-// app.model(bigtableModel);
+app.model(bigtableModel);
 
 // 路由
 app.router(()=>{
