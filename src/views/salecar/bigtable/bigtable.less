@@ -4,7 +4,29 @@
 
     .btn{
         float: right;
-        // 给按钮加一个小手
+        // 给鼠标加一个小手
         cursor: pointer;
     }
 }
+
+.onesmallelementbox{
+    overflow: hidden;
+    padding-bottom: 16px;
+    .onesmallelement{
+        float: left;
+        padding: 3px 8px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        margin-right: 10px;
+        // 把鼠标变成八爪状
+        cursor: move;
+    }
+}
+.alternativeArr{
+    overflow: hidden;
+    span{
+       .onesmallelementbox  .onesmallelement();
+       cursor: pointer;
+    }
+}
+
