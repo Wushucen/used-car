@@ -3,6 +3,7 @@ import {connect} from 'dva';
 import {Table, Button, Modal} from 'antd';
 
 import columnsMap from './columnsMap.js';
+import ModelInner from './ModelInner.js';
 import './bigtable.less';
 
 @connect(
@@ -14,7 +15,7 @@ export default class BigTable extends Component {
     constructor () {
         super();
         this.state = {
-            showChangeColumnModal:false
+            showChangeColumnModal:true
         };
     }
     // 组件即将上树
@@ -28,8 +29,9 @@ export default class BigTable extends Component {
                     title='请调整表格列的排序'
                     // 关于数据的数据要走model 关于UI的数据要走组件
                     visible={this.state.showChangeColumnModal}
+                    footer=''
                 >
-
+                    <ModelInner />
                 </Modal>
                 <div className="button_box">
                     <Button
