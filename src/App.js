@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
-
 const {SubMenu} = Menu;
 const {Header, Content, Sider} = Layout;
+
+import BigTable from './views/salecar/bigtable/BigTable.js';
 
 export default class App extends Component {
     render () {
@@ -89,7 +90,7 @@ export default class App extends Component {
                                     minHeight: 280
                                 }}
                             >
-                                Content
+                                <BigTable />
                             </Content>
                         </Layout>
                     </Layout>
