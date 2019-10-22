@@ -8,13 +8,13 @@
         cursor: pointer;
     }
 }
-
+.clearfix{
+    clear: both;
+}
 .onesmallelementbox{
-    height: 40px;
     padding-bottom: 16px;
-  
     .onesmallelement{ 
-     position: relative;
+        position: relative;
         float: left;
         padding: 3px 8px;
         border: 1px solid #000;
@@ -23,6 +23,10 @@
         margin-bottom: 10px;
         // 把鼠标变成八爪状
         cursor: move;
+
+        &:hover b{
+            display: block;
+        }
 
         @w: 15px;
         b{
@@ -40,11 +44,19 @@
             font-size: 15px;
             font-family: "consolas";
             cursor: pointer;
+            display: none;
+
         }
+
     }
+   
+}
+.alternative{
+    margin-top: 10px;
+    overflow: hidden;
 }
 .alternativeArr{
-    height: 40px;
+    margin-top: 10px;
     span{
        .onesmallelementbox  .onesmallelement();
        cursor: pointer;

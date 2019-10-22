@@ -24,6 +24,14 @@ export default class ModelInner extends Component {
             'alternativeArr':alternativeArr
         };
     }
+    deloneitem (english) {
+        console.log('儿子，你好' + english);
+        this.setState({
+            // 删filter改map filter是不等于 map是三元
+            'columnsArr':this.state.columnsArr.filter(item => item !== english),
+            'alternativeArr': [...this.state.alternativeArr, english]
+        });
+    }
     render () {
         return (
             <div>
@@ -43,22 +51,32 @@ export default class ModelInner extends Component {
                                     sortId={i}
                                     english={item}
                                     chinese={columnsMap[item].title}
+                                    other={{
+                                        deloneitem : this.deloneitem.bind(this)
+                                    }}
                                 >{item}
                                 </OneSmallElement>
                             );
                         })
                     }
+                    <div className='clearfix'></div>
                 </div>
-                <p>备选列：</p>
+                <p className='alternative'>备选列：</p>
                 <div className="alternativeArr">
                     {
                         this.state.alternativeArr.map((item, i)=> <span
-                            keys={i}
+                            key={i}
                         >
                             {columnsMap[item].title}
-                            <b> +</b>
+                            <b onClick={()=>{
+                                this.setState({
+                                    'alternativeArr':this.state.alternativeArr.filter(_item => _item !== item),
+                                    'columnsArr':[...this.state.columnsArr, item]
+                                });
+                            }}>+</b>
                         </span>)
                     }
+                    <div className='clearfix'></div>
                 </div>
             </div>
         );
