@@ -1,12 +1,27 @@
 import React, {Component} from 'react';
+import {connect} from 'dva';
+import _ from 'lodash';
+
 import OneSmallElement from './OneSmallElement.js';
 import './bigtable.less';
+import columnsMap from './columnsMap.js';
 
+@connect(
+    ({bigtable})=>({
+        ...bigtable
+    })
+)
 export default class ModelInner extends Component {
-    constructor () {
+    constructor (props) {
         super();
+        // 这里设置备选列的初始数组，直接交给lodash计算差集
+        let alternativeArr = _.difference(Object.keys(columnsMap), props.columnsArr);
+        console.log(alternativeArr);
+        // 遍历字典，看看这个选项的键名，是否在装饰器props.columnsArr中
+        // 如果不在就push到alternativeArr数组中
         this.state = {
-            arr : ['A', 'B', 'C']
+            'columnsArr' : props.columnsArr,
+            'alternativeArr':alternativeArr
         };
     }
     render () {
@@ -15,18 +30,19 @@ export default class ModelInner extends Component {
                 <p>当前为您展示的列（可以拖拽排序）：</p>
                 <div className='onesmallelementbox'>
                     {
-                        this.state.arr.map((item, i)=>{
+                        this.state.columnsArr.map((item, i)=>{
                             return (
                                 <OneSmallElement
                                     key={i}
-                                    onSortItems={arr=>{
+                                    onSortItems={(columnsArr)=>{
                                         this.setState({
-                                            arr
+                                            columnsArr
                                         });
                                     }}
-                                    items={this.state.arr}
+                                    items={this.state.columnsArr}
                                     sortId={i}
-                                    content={item}
+                                    english={item}
+                                    chinese={columnsMap[item].title}
                                 >{item}
                                 </OneSmallElement>
                             );
@@ -35,11 +51,14 @@ export default class ModelInner extends Component {
                 </div>
                 <p>备选列：</p>
                 <div className="alternativeArr">
-                    <span>发动机 <b>+</b></span>
-                    <span>燃料 <b>+</b></span>
-                    <span>购买日期 <b>+</b></span>
-                    <span>公里数 <b>+</b></span>
-                    <span>价格 <b>+</b></span>
+                    {
+                        this.state.alternativeArr.map((item, i)=> <span
+                            keys={i}
+                        >
+                            {columnsMap[item].title}
+                            <b> +</b>
+                        </span>)
+                    }
                 </div>
             </div>
         );

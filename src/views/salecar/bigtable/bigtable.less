@@ -10,20 +10,41 @@
 }
 
 .onesmallelementbox{
-    overflow: hidden;
+    height: 40px;
     padding-bottom: 16px;
-    .onesmallelement{
+  
+    .onesmallelement{ 
+     position: relative;
         float: left;
         padding: 3px 8px;
         border: 1px solid #000;
         border-radius: 4px;
         margin-right: 10px;
+        margin-bottom: 10px;
         // 把鼠标变成八爪状
         cursor: move;
+
+        @w: 15px;
+        b{
+            box-sizing: border-box;
+            position: absolute;
+            width: @w;
+            height: @w;
+            border: 1px solid #000;
+            background-color: #fff;
+            border-radius: 50%;
+            right: -@w/2;
+            top: -@w/2;
+            text-align: center;
+            line-height: 12px;
+            font-size: 15px;
+            font-family: "consolas";
+            cursor: pointer;
+        }
     }
 }
 .alternativeArr{
-    overflow: hidden;
+    height: 40px;
     span{
        .onesmallelementbox  .onesmallelement();
        cursor: pointer;

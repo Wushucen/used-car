@@ -9,7 +9,7 @@ export default class OneSmallElement extends Component {
     render () {
         return (
             <div className="onesmallelement" {...this.props}>
-               小元素{this.props.children}
+                {this.props.chinese}<b> x</b>
             </div>
         );
     }

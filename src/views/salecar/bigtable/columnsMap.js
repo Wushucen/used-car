@@ -5,8 +5,11 @@ export default {
     'id':{
         'title':'编号'
     },
+    'image':{
+        'title':'图片'
+    },
     'fuel':{
-        'title':'燃气'
+        'title':'燃料'
     },
     'brand':{
         'title':'品牌'
@@ -19,5 +22,15 @@ export default {
     },
     'exhaust':{
         'title':'排放'
+    },
+    'engine':{
+        'title':'发动机'
+    },
+    'buydate':{
+        'title':'购买日期'
+    },
+    'km':{
+        'title':'公里数'
     }
+
 };
