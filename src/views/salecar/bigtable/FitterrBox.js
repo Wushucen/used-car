@@ -4,6 +4,9 @@ import {Row, Col, Button, DatePicker} from 'antd';
 
 import OneSingleMultiChoise from './OneSingleMultiChoise.js';
 import Tags from './Tags.js';
+import BuyDateFilter from './BuyDateFilter.js';
+import BSFilter from './BSFilter.js';
+import PriceKm from './PriceKm.js';
 
 const {RangePicker} = DatePicker;
 
@@ -29,6 +32,11 @@ export default class FitterrBox extends Component {
         return (
             <div>
                 <Tags />
+
+                <BSFilter
+                    {...spans}
+                />
+
                 <OneSingleMultiChoise
                     {...spans}
                     k={'color'}
@@ -54,24 +62,14 @@ export default class FitterrBox extends Component {
                     c={'燃料'}
                     options={['汽油', '柴油', '油电混合', '纯电动']}
                 />
-                <Row style={{'display':this.props.buydate.length === 0 ? 'block' : 'none'}}>
-                    <Col span={spans.labelSpan}>
-                        <b>购买日期：</b>
-                    </Col>
-                    <Col span={spans.choseSpan}>
-                        <RangePicker onChange={arr => {
-                            const v = arr.map(item => item.unix() * 1000);
-                            this.setState({
-                                buydate: v
-                            });
-                        }} />
-                    </Col>
-                    <Col span={spans.btnSpan}>
-                        <Button onClick={()=>{
-                            this.props.dispatch({'type' :'bigtable/更新列表SAGA', 'k' : 'buydate', 'v' :this.state.buydate});
-                        }}>确定</Button>
-                    </Col>
-                </Row>
+
+                <BuyDateFilter
+                    {...spans}
+                />
+
+                <PriceKm
+                    {...spans}
+                />
             </div>
         );
     }

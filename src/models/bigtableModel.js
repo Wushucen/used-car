@@ -10,7 +10,11 @@ export default {
         exhaust:[],
         fuel:[],
         engine:[],
-        buydate:[]
+        buydate:[],
+        // 所有品牌
+        allbs:{},
+        brand:'',
+        series:''
     },
     reducers:{
         更新列 (state, {columnsArr}) {
@@ -29,6 +33,12 @@ export default {
             return {
                 ...state,
                 [k]: v
+            };
+        },
+        所有品牌 (state, {obj}) {
+            return {
+                ...state,
+                allbs:obj
             };
         }
     },
@@ -54,20 +64,29 @@ export default {
             yield put({'type':'获取列中的本地数据'});
         },
         *初始化 (action, {put, select}) {
-            const {color, exhaust, fuel, engine, buydate} = yield select(({bigtable}) => bigtable);
+            const {color, exhaust, fuel, engine, buydate, brand, series} = yield select(({bigtable}) => bigtable);
             const {results, total} = yield axios.get('/api/car?' + querystring.stringify({
                 color : color.join('v'),
                 exhaust : exhaust.join('v'),
                 fuel : fuel.join('v'),
                 engine : engine.join('v'),
-                buydate: buydate.join('to')
+                buydate: buydate.join('to'),
+                brand,
+                series
             })).then(data => data.data);
             console.log(results);
             yield put({'type':'更新结果', results});
         },
         *更新列表SAGA ({k, v}, {put}) {
             yield put({'type':'更新列表', k, v});
+            if (k === 'brand') {
+                yield put({'type': '更新列表', 'k':'series', 'v':''});
+            }
             yield put({'type':'初始化'});
+        },
+        *获取所有品牌SAGA (action, {put}) {
+            const obj = yield axios.get('/api/allbs').then(data => data.data);
+            yield put({'type':'所有品牌', obj});
         }
     }
 };

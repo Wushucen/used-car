@@ -43,7 +43,12 @@ export default {
         }
     },
     'km':{
-        'title':'公里数'
+        'title':'公里数',
+        'reder':(txt) => {
+            return <div>
+                {txt.toString().replace(/\B(?=(...)+$)/g, ',')}
+            </div>;
+        }
     }
 
 };
