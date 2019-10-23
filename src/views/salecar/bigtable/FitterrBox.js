@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
-import {Row, Col} from 'antd';
+import {Row, Col, Button, DatePicker} from 'antd';
 
 import OneSingleMultiChoise from './OneSingleMultiChoise.js';
 import Tags from './Tags.js';
+
+const {RangePicker} = DatePicker;
 
 @connect(
     ({bigtable})=>({
@@ -55,6 +57,19 @@ export default class FitterrBox extends Component {
                 <Row style={{'display':this.props.buydate.length === 0 ? 'block' : 'none'}}>
                     <Col span={spans.labelSpan}>
                         <b>购买日期：</b>
+                    </Col>
+                    <Col span={spans.choseSpan}>
+                        <RangePicker onChange={arr => {
+                            const v = arr.map(item => item.unix() * 1000);
+                            this.setState({
+                                buydate: v
+                            });
+                        }} />
+                    </Col>
+                    <Col span={spans.btnSpan}>
+                        <Button onClick={()=>{
+                            this.props.dispatch({'type' :'bigtable/更新列表SAGA', 'k' : 'buydate', 'v' :this.state.buydate});
+                        }}>确定</Button>
                     </Col>
                 </Row>
             </div>

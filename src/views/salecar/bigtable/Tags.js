@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'dva';
 import classnames from 'classnames';
 import {Tag} from 'antd';
+import moment from 'moment';
 
 @connect(
     ({bigtable}) => ({
@@ -26,7 +27,9 @@ export default class Tags extends Component {
                 v = this.props[json.k].join(' 或 ');
                 break;
             case 'buydate':
-                v = this.props[json.k].join(' 到 ');
+                v = this.props[json.k].map(item=> {
+                    return moment(item).format('YYYY年MM月DD日');
+                }).join(' 到 ');
                 break;
             }
             return <Tag key={json.k} closable onClose={()=>{
@@ -39,7 +42,7 @@ export default class Tags extends Component {
     render () {
         return (
             <div>
-                <div>
+                <div className='tagsbox'>
                     {
                         [
                             {'k': 'color', 'c': '颜色'},
