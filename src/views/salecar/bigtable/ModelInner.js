@@ -80,7 +80,9 @@ export default class ModelInner extends Component {
                     <div className='clearfix'></div>
                 </div>
                 <div>
-                    <Button>取消</Button>
+                    <Button onClick={()=>{
+                        this.props.cancelHandler(this.state.cancelHandler);
+                    }}>取消</Button>
                     <Button onClick={()=>{
                         this.props.okHandler(this.state.columnsArr);
                     }}>确定</Button>

@@ -4,6 +4,7 @@ import {Table, Button, Modal} from 'antd';
 
 import columnsMap from './columnsMap.js';
 import ModelInner from './ModelInner.js';
+import FitterrBox from './FitterrBox.js';
 import './bigtable.less';
 
 @connect(
@@ -15,7 +16,7 @@ export default class BigTable extends Component {
     constructor () {
         super();
         this.state = {
-            showChangeColumnModal:true
+            showChangeColumnModal:false
         };
     }
     // 组件即将上树
@@ -39,8 +40,14 @@ export default class BigTable extends Component {
                         this.setState({
                             showChangeColumnModal:false
                         });
+                    }} cancelHandler={(columns)=>{
+                        this.setState({
+                            showChangeColumnModal:false
+                        });
                     }} />
                 </Modal>
+
+                <FitterrBox />
 
                 <div className="button_box">
                     <Button
@@ -66,6 +73,7 @@ export default class BigTable extends Component {
                             ...columnsMap[item]
                         }))
                     }
+                    dataSource={this.props.results}
                 />
             </div>
         );

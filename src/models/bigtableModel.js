@@ -5,7 +5,10 @@ export default {
     namespace:'bigtable',
     state:{
         current:1,
-        columnsArr: []
+        columnsArr: [],
+        color: [],
+        exhaust:[],
+        fuel:[]
     },
     reducers:{
         更新列 (state, {columnsArr}) {
@@ -19,8 +22,13 @@ export default {
                 ...state,
                 results
             };
+        },
+        更新列表 (state, {k, v}) {
+            return {
+                ...state,
+                [k]: v
+            };
         }
-
     },
     effects:{
         *获取列中的本地数据 (action, {put}) {
@@ -42,10 +50,18 @@ export default {
             // getItem是获取到数据 setItem是输出数据
             localStorage.setItem('columns', JSON.stringify(columns));
             yield put({'type':'获取列中的本地数据'});
+        },
+        *初始化 (action, {put, select}) {
+            const {color, exhaust, fuel} = yield select(({bigtable}) => bigtable);
+            const {results, total} = yield axios.get('/api/car?' + querystring.stringify({
+                color : color.join('v')
+            })).then(data => data.data);
+            console.log(results);
+            yield put({'type':'更新结果', results});
+        },
+        *更新列表SAGA ({k, v}, {put}) {
+            yield put({'type':'更新列表', k, v});
+            yield put({'type':'初始化'});
         }
-        // *初始化 (action, {put, select}) {
-        //     const {results, total} = yield axios.get('api/car?').then(data => data.data);
-        //     console.log(data.data);
-        // }
     }
 };
