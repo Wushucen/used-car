@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import classnames from 'classnames';
-import {Row, Col} from 'antd';
+import {Row, Col, Button} from 'antd';
 
 @connect(
     ({bigtable})=>({
@@ -16,6 +16,15 @@ export default class OneSingleMultiChoise extends Component {
             // 已经选中的项
             arr:[]
         };
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (nextProps[this.props.k] !== this.props[this.props.k]) {
+            this.setState({
+                isMultiple : false,
+                arr:[]
+            });
+        }
     }
     render () {
         return (
@@ -49,6 +58,17 @@ export default class OneSingleMultiChoise extends Component {
                             >
                                 {item}
                             </span>)
+                        }
+                    </Col>
+                    <Col span={this.props.btnSpan}>
+                        {
+                            this.state.isMultiple ? <Button type='primary' onClick={()=>{
+                                this.props.dispatch({'type':'bigtable/更新列表SAGA', 'k':this.props.k, 'v':this.state.arr});
+                            }}>确定</Button> : <Button onClick={()=>{
+                                this.setState({
+                                    isMultiple :true
+                                });
+                            }}>多选</Button>
                         }
                     </Col>
                 </Row>

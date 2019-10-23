@@ -8,7 +8,9 @@ export default {
         columnsArr: [],
         color: [],
         exhaust:[],
-        fuel:[]
+        fuel:[],
+        engine:[],
+        buydate:[]
     },
     reducers:{
         更新列 (state, {columnsArr}) {
@@ -52,9 +54,13 @@ export default {
             yield put({'type':'获取列中的本地数据'});
         },
         *初始化 (action, {put, select}) {
-            const {color, exhaust, fuel} = yield select(({bigtable}) => bigtable);
+            const {color, exhaust, fuel, engine, buydate} = yield select(({bigtable}) => bigtable);
             const {results, total} = yield axios.get('/api/car?' + querystring.stringify({
-                color : color.join('v')
+                color : color.join('v'),
+                exhaust : exhaust.join('v'),
+                fuel : fuel.join('v'),
+                engine : engine.join('v'),
+                buydate: buydate.join('to')
             })).then(data => data.data);
             console.log(results);
             yield put({'type':'更新结果', results});
