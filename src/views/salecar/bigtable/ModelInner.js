@@ -5,6 +5,7 @@ import _ from 'lodash';
 import OneSmallElement from './OneSmallElement.js';
 import './bigtable.less';
 import columnsMap from './columnsMap.js';
+import {Button} from 'antd';
 
 @connect(
     ({bigtable})=>({
@@ -20,12 +21,12 @@ export default class ModelInner extends Component {
         // 遍历字典，看看这个选项的键名，是否在装饰器props.columnsArr中
         // 如果不在就push到alternativeArr数组中
         this.state = {
-            'columnsArr' : props.columnsArr,
+            // slice浅克隆一下,让内存中多一个镜像
+            'columnsArr' : props.columnsArr.slice(),
             'alternativeArr':alternativeArr
         };
     }
     deloneitem (english) {
-        console.log('儿子，你好' + english);
         this.setState({
             // 删filter改map filter是不等于 map是三元
             'columnsArr':this.state.columnsArr.filter(item => item !== english),
@@ -77,6 +78,12 @@ export default class ModelInner extends Component {
                         </span>)
                     }
                     <div className='clearfix'></div>
+                </div>
+                <div>
+                    <Button>取消</Button>
+                    <Button onClick={()=>{
+                        this.props.okHandler(this.state.columnsArr);
+                    }}>确定</Button>
                 </div>
             </div>
         );

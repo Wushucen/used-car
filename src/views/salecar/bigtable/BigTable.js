@@ -21,6 +21,7 @@ export default class BigTable extends Component {
     // 组件即将上树
     componentWillMount () {
         this.props.dispatch({'type':'bigtable/获取列中的本地数据'});
+        this.props.dispatch({'type':'bigtable/初始化'});
     }
     render () {
         return (
@@ -31,8 +32,16 @@ export default class BigTable extends Component {
                     visible={this.state.showChangeColumnModal}
                     footer=''
                 >
-                    <ModelInner />
+                    <ModelInner ref='modelinner' okHandler={(columns)=>{
+                        console.log(columns);
+                        // 点击确定按钮之后做的事情
+                        this.props.dispatch({'type':'bigtable/设置列中的数据存到本地', columns});
+                        this.setState({
+                            showChangeColumnModal:false
+                        });
+                    }} />
                 </Modal>
+
                 <div className="button_box">
                     <Button
                         className="btn"
@@ -47,6 +56,7 @@ export default class BigTable extends Component {
                     />
                 </div>
                 <Table
+                    rowKey='id'
                     columns={
                         // 这个时候需要用已经转换过的数据来map进去
                         this.props.columnsArr.map(item=>({
