@@ -9,7 +9,6 @@ export default class App extends Component {
     render () {
         return (
             <div>
-                ReactDOM.render(
                 <Layout>
                     <Header className="header">
                         <div className="logo" />

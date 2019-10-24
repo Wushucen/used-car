@@ -15,7 +15,7 @@ export default class Tags extends Component {
     }
     // 封装一个函数
     showTagOrNull (json) {
-        if (this.props[json.k].length === 0) {
+        if (this.props[json.k].length === 0 || json.k === 'price' && this.props[json.k].toString() === '0,120' ) {
             return null;
         } else {
             let v = '';
@@ -35,10 +35,15 @@ export default class Tags extends Component {
             case 'series':
                 v = this.props[json.k];
                 break;
+            case 'price':
+                v = this.props[json.k].map(n => n + '万元').join(' 到 ');
+                break;
             }
             return <Tag key={json.k} closable onClose={()=>{
                 if (json.k === 'brand' || json.k === 'series') {
                     this.props.dispatch({'type' : 'bigtable/更新列表SAGA', 'k': json.k, 'v': ''});
+                } else if (json.k === 'price') {
+                    this.props.dispatch({'type': 'bigtable/更新列表SAGA', 'k': json.k, 'v': [0, 120]});
                 } else {
                     this.props.dispatch({'type' : 'bigtable/更新列表SAGA', 'k': json.k, 'v': []});
                 }
@@ -58,7 +63,9 @@ export default class Tags extends Component {
                             {'k': 'fuel', 'c': '燃料'},
                             {'k': 'exhaust', 'c': '排放'},
                             {'k': 'buydate', 'c': '购买日期'},
-                            {'k': 'brand', 'c': '品牌'}
+                            {'k': 'brand', 'c': '品牌'},
+                            {'k': 'series', 'c': '车系'},
+                            {'k': 'price', 'c': '价格'}
                         ].map(item => this.showTagOrNull(item))
                     }
                 </div>

@@ -11,6 +11,8 @@ export default {
         fuel:[],
         engine:[],
         buydate:[],
+        price:[0, 120],
+        km:[0, 200000],
         // 所有品牌
         allbs:{},
         brand:'',
@@ -64,13 +66,15 @@ export default {
             yield put({'type':'获取列中的本地数据'});
         },
         *初始化 (action, {put, select}) {
-            const {color, exhaust, fuel, engine, buydate, brand, series} = yield select(({bigtable}) => bigtable);
+            const {color, exhaust, fuel, engine, buydate, brand, series, price, km} = yield select(({bigtable}) => bigtable);
             const {results, total} = yield axios.get('/api/car?' + querystring.stringify({
                 color : color.join('v'),
                 exhaust : exhaust.join('v'),
                 fuel : fuel.join('v'),
                 engine : engine.join('v'),
                 buydate: buydate.join('to'),
+                price: price.join('to'),
+                km:km.join('to'),
                 brand,
                 series
             })).then(data => data.data);

@@ -55,6 +55,26 @@ export default class BSFilter extends Component {
                         </Tabs>
                     </Col>
                 </Row>
+                <Row className='myrow'>
+                    <Col span={this.props.labelSpan}>
+                        <b>车系：</b>
+                    </Col>
+                    <Col span={this.props.choseSpan}>
+                        {
+                            (()=>{
+                                if (this.state.nowCapital !== '' && this.props.brand !== '') {
+                                    return this.props.allbs[this.state.nowCapital][this.props.brand].map(series => <a className={classnames(['tab_a', {
+                                        'cur': this.props.series === series
+                                    }])} key={series} onClick={()=>{
+                                        this.props.dispatch({'type':'bigtable/更新列表SAGA', 'k':'series', 'v':series});
+                                    }}>
+                                        {series}
+                                    </a>);
+                                }
+                            })()
+                        }
+                    </Col>
+                </Row>
             </div>
         );
     }
